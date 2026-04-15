@@ -13,4 +13,14 @@ pub fn build(b: *std.Build) void {
     });
 
     b.installArtifact(exe);
+
+    // This one is the debug run command.
+    const run_cmd = b.addRunArtifact(exe);
+
+    if (b.args) |args| {
+        run_cmd.addArgs(args);
+    }
+
+    const run_step = b.step("run", "Runs the debug application");
+    run_step.dependOn(&run_cmd.step);
 }
