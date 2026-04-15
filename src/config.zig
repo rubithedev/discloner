@@ -54,7 +54,11 @@ pub const Config = struct {
                 option.description,
             }) catch unreachable;
 
-            stdout.writeStreamingAll(self.local_io, result) catch unreachable;
+            stdout.writeStreamingAll(self.local_io, result) catch |err| {
+                debug.print("Could not write to the STDIO: {s}\n", .{
+                    @errorName(err),
+                });
+            };
         }
     }
 };
